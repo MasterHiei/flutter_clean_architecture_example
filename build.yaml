@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      auto_route_generator:
+        generate_for:
+          include:
+            - lib/core/routes/app_router.dart
+            - lib/**/*_page.dart
+      freezed:
+        options:
+          format: false
+        generate_for:
+          include:
+            - lib/**/*_failure.dart
+            - lib/**/entities/*.dart
