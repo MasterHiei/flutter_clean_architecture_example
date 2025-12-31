@@ -9,24 +9,24 @@ targets:
       auto_route_generator:
         generate_for:
           include:
-            - lib/features/core/routes/app_router.dart
+            - lib/router/app_router.dart
             - lib/**/*_page.dart
       drift_dev:
         options:
           data_class_to_companions: false
         generate_for:
           include:
-            - lib/features/core/databases/**
+            - lib/core/infrastructure/databases/**
       envied_generator|envied:
         generate_for:
           include:
-            - lib/features/core/constants/env.dart
+            - lib/core/infrastructure/constants/env.dart
       freezed:
         options:
           format: false
         generate_for:
           include:
-            - lib/features/core/failures/**
+            - lib/core/domain/failures/**
             - lib/**/entities/**
             - lib/**/value_objects/**
             - lib/**/dtos/**

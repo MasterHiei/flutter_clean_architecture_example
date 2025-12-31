@@ -15,7 +15,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => _uuid.v4(),
   );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
@@ -59,26 +60,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _passwordMeta = const VerificationMeta(
-    'password',
-  );
   @override
-  late final GeneratedColumn<String> password = GeneratedColumn<String>(
-    'password',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    createdAt,
-    updatedAt,
-    name,
-    email,
-    password,
-  ];
+  List<GeneratedColumn> get $columns => [id, createdAt, updatedAt, name, email];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -93,8 +76,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('created_at')) {
       context.handle(
@@ -124,14 +105,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     } else if (isInserting) {
       context.missing(_emailMeta);
     }
-    if (data.containsKey('password')) {
-      context.handle(
-        _passwordMeta,
-        password.isAcceptableOrUnknown(data['password']!, _passwordMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_passwordMeta);
-    }
     return context;
   }
 
@@ -145,36 +118,26 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   User map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return User(
-      id:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}id'],
-          )!,
-      createdAt:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}created_at'],
-          )!,
-      updatedAt:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}updated_at'],
-          )!,
-      name:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}name'],
-          )!,
-      email:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}email'],
-          )!,
-      password:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}password'],
-          )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      )!,
     );
   }
 
@@ -190,14 +153,12 @@ class User extends DataClass implements Insertable<User> {
   final DateTime updatedAt;
   final String name;
   final String email;
-  final String password;
   const User({
     required this.id,
     required this.createdAt,
     required this.updatedAt,
     required this.name,
     required this.email,
-    required this.password,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -207,7 +168,6 @@ class User extends DataClass implements Insertable<User> {
     map['updated_at'] = Variable<DateTime>(updatedAt);
     map['name'] = Variable<String>(name);
     map['email'] = Variable<String>(email);
-    map['password'] = Variable<String>(password);
     return map;
   }
 
@@ -222,7 +182,6 @@ class User extends DataClass implements Insertable<User> {
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       name: serializer.fromJson<String>(json['name']),
       email: serializer.fromJson<String>(json['email']),
-      password: serializer.fromJson<String>(json['password']),
     );
   }
   @override
@@ -234,7 +193,6 @@ class User extends DataClass implements Insertable<User> {
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'name': serializer.toJson<String>(name),
       'email': serializer.toJson<String>(email),
-      'password': serializer.toJson<String>(password),
     };
   }
 
@@ -244,14 +202,12 @@ class User extends DataClass implements Insertable<User> {
     DateTime? updatedAt,
     String? name,
     String? email,
-    String? password,
   }) => User(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
     name: name ?? this.name,
     email: email ?? this.email,
-    password: password ?? this.password,
   );
   User copyWithCompanion(UsersCompanion data) {
     return User(
@@ -260,7 +216,6 @@ class User extends DataClass implements Insertable<User> {
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       name: data.name.present ? data.name.value : this.name,
       email: data.email.present ? data.email.value : this.email,
-      password: data.password.present ? data.password.value : this.password,
     );
   }
 
@@ -271,15 +226,13 @@ class User extends DataClass implements Insertable<User> {
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('name: $name, ')
-          ..write('email: $email, ')
-          ..write('password: $password')
+          ..write('email: $email')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, createdAt, updatedAt, name, email, password);
+  int get hashCode => Object.hash(id, createdAt, updatedAt, name, email);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -288,8 +241,7 @@ class User extends DataClass implements Insertable<User> {
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.name == this.name &&
-          other.email == this.email &&
-          other.password == this.password);
+          other.email == this.email);
 }
 
 class UsersCompanion extends UpdateCompanion<User> {
@@ -298,7 +250,6 @@ class UsersCompanion extends UpdateCompanion<User> {
   final Value<DateTime> updatedAt;
   final Value<String> name;
   final Value<String> email;
-  final Value<String> password;
   final Value<int> rowid;
   const UsersCompanion({
     this.id = const Value.absent(),
@@ -306,28 +257,23 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.updatedAt = const Value.absent(),
     this.name = const Value.absent(),
     this.email = const Value.absent(),
-    this.password = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UsersCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     required String name,
     required String email,
-    required String password,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       name = Value(name),
-       email = Value(email),
-       password = Value(password);
+  }) : name = Value(name),
+       email = Value(email);
   static Insertable<User> custom({
     Expression<String>? id,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<String>? name,
     Expression<String>? email,
-    Expression<String>? password,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -336,7 +282,6 @@ class UsersCompanion extends UpdateCompanion<User> {
       if (updatedAt != null) 'updated_at': updatedAt,
       if (name != null) 'name': name,
       if (email != null) 'email': email,
-      if (password != null) 'password': password,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -347,7 +292,6 @@ class UsersCompanion extends UpdateCompanion<User> {
     Value<DateTime>? updatedAt,
     Value<String>? name,
     Value<String>? email,
-    Value<String>? password,
     Value<int>? rowid,
   }) {
     return UsersCompanion(
@@ -356,7 +300,6 @@ class UsersCompanion extends UpdateCompanion<User> {
       updatedAt: updatedAt ?? this.updatedAt,
       name: name ?? this.name,
       email: email ?? this.email,
-      password: password ?? this.password,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -379,9 +322,6 @@ class UsersCompanion extends UpdateCompanion<User> {
     if (email.present) {
       map['email'] = Variable<String>(email.value);
     }
-    if (password.present) {
-      map['password'] = Variable<String>(password.value);
-    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -396,7 +336,6 @@ class UsersCompanion extends UpdateCompanion<User> {
           ..write('updatedAt: $updatedAt, ')
           ..write('name: $name, ')
           ..write('email: $email, ')
-          ..write('password: $password, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -417,12 +356,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 
 typedef $$UsersTableCreateCompanionBuilder =
     UsersCompanion Function({
-      required String id,
+      Value<String> id,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
       required String name,
       required String email,
-      required String password,
       Value<int> rowid,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
@@ -432,7 +370,6 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<DateTime> updatedAt,
       Value<String> name,
       Value<String> email,
-      Value<String> password,
       Value<int> rowid,
     });
 
@@ -466,11 +403,6 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get email => $composableBuilder(
     column: $table.email,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get password => $composableBuilder(
-    column: $table.password,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -508,11 +440,6 @@ class $$UsersTableOrderingComposer
     column: $table.email,
     builder: (column) => ColumnOrderings(column),
   );
-
-  ColumnOrderings<String> get password => $composableBuilder(
-    column: $table.password,
-    builder: (column) => ColumnOrderings(column),
-  );
 }
 
 class $$UsersTableAnnotationComposer
@@ -538,9 +465,6 @@ class $$UsersTableAnnotationComposer
 
   GeneratedColumn<String> get email =>
       $composableBuilder(column: $table.email, builder: (column) => column);
-
-  GeneratedColumn<String> get password =>
-      $composableBuilder(column: $table.password, builder: (column) => column);
 }
 
 class $$UsersTableTableManager
@@ -563,12 +487,12 @@ class $$UsersTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer:
-              () => $$UsersTableFilterComposer($db: db, $table: table),
-          createOrderingComposer:
-              () => $$UsersTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer:
-              () => $$UsersTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$UsersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UsersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UsersTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
@@ -576,7 +500,6 @@ class $$UsersTableTableManager
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> email = const Value.absent(),
-                Value<String> password = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
@@ -584,17 +507,15 @@ class $$UsersTableTableManager
                 updatedAt: updatedAt,
                 name: name,
                 email: email,
-                password: password,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<String> id = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
                 required String name,
                 required String email,
-                required String password,
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
@@ -602,19 +523,11 @@ class $$UsersTableTableManager
                 updatedAt: updatedAt,
                 name: name,
                 email: email,
-                password: password,
                 rowid: rowid,
               ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable(table),
-                          BaseReferences(db, table, e),
-                        ),
-                      )
-                      .toList(),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );
