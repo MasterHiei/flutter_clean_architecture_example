@@ -1,16 +1,47 @@
-# flutter_clean_architecture_example
+# Flutter Clean Architecture Example
 
-A new Flutter project.
+A comprehensive Flutter template project implementing Clean Architecture with Domain-Driven Design patterns.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| State Management | Riverpod |
+| Immutability | Freezed |
+| Error Handling | fpdart (Either) |
+| Local Database | Drift |
+| Networking | Dio + Retrofit |
+| Routing | auto_route |
+
+## Project Structure
+
+~~~
+lib/
+├── core/                    # Cross-feature shared code
+│   ├── domain/             # Failures, Value Objects
+│   └── infrastructure/     # Database, Network, Constants
+├── features/               # Feature modules
+├── shared/                 # Shared UI components
+├── router/                 # Navigation
+└── l10n/                   # Localization
+~~~
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+~~~bash
+# Install dependencies
+flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
+# Generate code
+dart run build_runner build --delete-conflicting-outputs
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# Run dev flavor
+flutter run --flavor dev --dart-define=FLUTTER_APP_FLAVOR=dev
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Run prod flavor
+flutter run --flavor prod --dart-define=FLUTTER_APP_FLAVOR=prod
+~~~
+
+## Documentation
+
+See `.agent/` directory for architecture documentation.
