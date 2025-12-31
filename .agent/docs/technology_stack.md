@@ -21,6 +21,27 @@
 
 ---
 
+## 0. Dependency Strategy & Justification
+
+This architecture minimizes external dependencies, relying only on packages that significantly enhance **Type Safety**, **Immutability**, or **Developer Experience**.
+
+| Dependency | Category | Necessity | Justification |
+|------------|----------|-----------|---------------|
+| **Riverpod** | Core | 🔴 Critical | Provides compile-time safe Dependency Injection and declarative state management. Backbone of the architecture. |
+| **Freezed** | Core | 🔴 Critical | Enables strict immutability and Union Types (Pattern Matching), essential for safe Domain modeling. |
+| **fpdart** | Core | 🔴 Critical | Implements `Either` for functional error handling, replacing try-catch chaos with type-safe flow control. |
+| **build_runner** | Tooling | 🔴 Critical | Required driver for code generation (Freezed, Riverpod, Drift). |
+| **json_serializable** | Util | 🟡 High | Standard for JSON. Hand-writing serialization is error-prone and unmaintainable. |
+| **Dio** | Infra | 🟢 Recommended | Advanced networking (Interceptors, Transformers). Replaceable with `http` if needed. |
+| **Drift** | Infra | 🟢 Recommended | Strongest SQL support for Flutter. Replaceable with Isar/Hive for NoSQL needs. |
+| **auto_route** | Infra | 🟢 Recommended | Type-safe navigation generator. Replaceable with `go_router` or Navigator 2.0. |
+
+> **Selection Criteria**:
+> - **Critical**: Removes an entire class of runtime errors (e.g., Null safety, State mutations).
+> - **Recommended**: Provides significant productivity boost but can be meant to be swapped based on preference.
+
+---
+
 ## 1. State Management
 
 The architecture is compatible with mainstream state management solutions. Choose based on project needs.

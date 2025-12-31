@@ -10,7 +10,6 @@
 |---------|---------------|-------|
 | **Freezed** | [pub.dev/documentation/freezed](https://pub.dev/documentation/freezed/latest/) | Entity / Value Object definition |
 | **fpdart** | [pub.dev/documentation/fpdart](https://pub.dev/documentation/fpdart/latest/) | Either / Option / TaskEither |
-| **email_validator** | [pub.dev/packages/email_validator](https://pub.dev/packages/email_validator) | Email format validation |
 
 ---
 
@@ -87,7 +86,9 @@ abstract class Email with _$Email {
     if (trimmed.isEmpty) {
       return left(const ValidationFailure.emptyField('email'));
     }
-    if (!EmailValidator.validate(trimmed)) {
+    // Use regex or package like 'email_validator' for validation
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(trimmed)) {
       return left(const ValidationFailure.invalidFormat('email'));
     }
     return right(Email._(value: trimmed));

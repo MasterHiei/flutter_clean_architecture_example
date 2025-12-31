@@ -37,7 +37,7 @@ Based on Robert C. Martin's (Uncle Bob) Clean Architecture, the project uses the
 ### Key Rules
 
 - **Domain Layer Purity**:
-  - ✅ Allowed: Pure Dart packages (`fpdart`, `freezed_annotation`, `meta`, `email_validator`)
+  - ✅ Allowed: Pure Dart packages (`fpdart`, `freezed_annotation`, `meta`)
   - ❌ Prohibited: Flutter SDK (`package:flutter/*`)
   - ❌ Prohibited: Infrastructure packages (Network, DB, File System)
 - **Dependency Rule**: Inner layers must not know about outer layers. Outer layers depend on inner layers via interfaces.
