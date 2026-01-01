@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 mixin IdMixin on Table {
   static const _uuid = Uuid();
 
-  late final id = text().clientDefault(() => _uuid.v4())();
+  late final Column<String> id = text().clientDefault(() => _uuid.v4())();
 
   @override
   Set<Column> get primaryKey => {id};

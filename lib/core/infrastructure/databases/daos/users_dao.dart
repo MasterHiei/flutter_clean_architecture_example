@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:flutter_clean_architecture_example/core/infrastructure/databases/app_database.dart';
-import 'package:flutter_clean_architecture_example/core/infrastructure/databases/tables/users.dart';
+import '../app_database.dart';
+import '../tables/users.dart';
 
 part 'users_dao.g.dart';
 

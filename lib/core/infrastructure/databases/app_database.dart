@@ -1,15 +1,15 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:flutter_clean_architecture_example/core/infrastructure/constants/db_settings.dart';
-import 'package:flutter_clean_architecture_example/core/infrastructure/constants/env.dart';
-import 'package:flutter_clean_architecture_example/core/infrastructure/databases/daos/index.dart';
-import 'package:flutter_clean_architecture_example/core/infrastructure/databases/tables/index.dart';
+import '../constants/db_settings.dart';
+import '../constants/env.dart';
+import 'daos/index.dart';
+import 'tables/index.dart';
 
 part 'app_database.g.dart';
 
-const _tables = [Users];
+const List<Type> _tables = [Users];
 
-const _daos = [UsersDao];
+const List<Type> _daos = [UsersDao];
 
 @DriftDatabase(tables: _tables, daos: _daos)
 class AppDatabase extends _$AppDatabase {
