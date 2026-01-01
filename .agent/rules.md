@@ -210,25 +210,35 @@ Stop and report if:
 > [!WARNING]
 > Every action MUST be followed by verification. Do NOT proceed if verification fails.
 
-### Verification Protocol
+### Verification Protocol (STRICT)
 
 ~~~
 After EVERY implementation action:
 │
-├── 1. Run `dart analyze` → Must show zero issues
+├── 1. Run `dart analyze` → Must show **ZERO** issues (info/warning/error)
+│     └── ⛔ IF ANY ISSUE EXISTS: FIX IMMEDIATELY. DO NOT PROCEED.
 │
-├── 2. Check UI behavior (if applicable) → Must match requirements
+├── 2. Design Compliance Audit (Critical)
+│     ├── Re-read `architecture_principles.md` & `rules.md`
+│     ├── Verify layer separation & dependency rules (Domain independent?)
+│     ├── Check prohibited behaviors (e.g., setState, manual providers)
+│     └── Ensure ALL user requirements are met without omission
 │
 ├── 3. Verify test results (if tests exist) → Must pass
 │
 └── 4. Confirm changes match requirements → Re-read task before proceeding
 ~~~
 
+### Zero Tolerance Policy
+- **NO Unresolved Issues**: It is strictly prohibited to leave *any* `dart analyze` info, warning, or error unresolved.
+- **NO Design Violations**: Code that violates architecture principles must be rolled back or fixed immediately.
+- **NO Partial Implementations**: Do not mark a task as done if it generates new warnings or fails to meet the full design scope.
+
 ### Verification Commands
 
 | Action Type | Verification Command |
 |-------------|---------------------|
-| Code changes | `dart analyze` |
+| Code changes | `dart analyze --fatal-infos` |
 | Feature implementation | `flutter test` (if tests exist) |
 | Build configuration | `flutter build` (dry run) |
 
