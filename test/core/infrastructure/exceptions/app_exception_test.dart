@@ -3,42 +3,54 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AppException', () {
-    test('toString should return message when provided', () {
-      const exception = NetworkException('Custom message');
-      expect(exception.toString(), 'Custom message');
-    });
+    test(
+      'Given an exception with a message, When toString is called, Then it should return that message',
+      () {
+        const exception = NetworkException('Custom message');
+        expect(exception.toString(), 'Custom message');
+      },
+    );
 
-    test('toString should return fallback when no message', () {
-      const exception = CacheException();
-      expect(exception.toString(), isNotEmpty);
-    });
+    test(
+      'Given an exception without a message, When toString is called, Then it should return a non-empty fallback',
+      () {
+        const exception = CacheException();
+        expect(exception.toString(), isNotEmpty);
+      },
+    );
   });
 
   group('NetworkException', () {
-    test('should create with message', () {
+    test('Given a custom message, When instantiated, Then it should retain that message', () {
       const exception = NetworkException('Network error');
       expect(exception.message, 'Network error');
     });
 
-    test('timeout factory should have correct message', () {
-      const exception = NetworkException.timeout();
-      expect(exception.message, 'Connection timeout');
-    });
+    test(
+      'Given the timeout factory, When instantiated, Then it should have the correct timeout message',
+      () {
+        const exception = NetworkException.timeout();
+        expect(exception.message, 'Connection timeout');
+      },
+    );
 
-    test('noInternet factory should have correct message', () {
-      const exception = NetworkException.noInternet();
-      expect(exception.message, 'No internet connection');
-    });
+    test(
+      'Given the noInternet factory, When instantiated, Then it should have the correct no-internet message',
+      () {
+        const exception = NetworkException.noInternet();
+        expect(exception.message, 'No internet connection');
+      },
+    );
   });
 
   group('ServerException', () {
-    test('should contain status code', () {
+    test('Given a status code and message, When instantiated, Then it should retain both', () {
       const exception = ServerException(404, 'Not found');
       expect(exception.statusCode, 404);
       expect(exception.message, 'Not found');
     });
 
-    test('should work without message', () {
+    test('Given only a status code, When instantiated, Then the message should be null', () {
       const exception = ServerException(500);
       expect(exception.statusCode, 500);
       expect(exception.message, isNull);
@@ -46,7 +58,7 @@ void main() {
   });
 
   group('CacheException', () {
-    test('should create with optional message', () {
+    test('Given a message, When instantiated, Then it should retain that message', () {
       const exception = CacheException('Cache miss');
       expect(exception.message, 'Cache miss');
     });
