@@ -1,0 +1,22 @@
+{
+  "@@locale": "zh",
+  "appTitle": "Clean Architecture",
+  "loginTitle": "登录",
+  "loginButton": "登录",
+  "emailLabel": "邮箱",
+  "passwordLabel": "密码",
+  "errorNetwork": "网络错误，请检查连接。",
+  "errorUnexpected": "发生未知错误。",
+  "errorNotFound": "未找到 {resource}。",
+  "@errorNotFound": {
+    "placeholders": {
+      "resource": {"type": "String"}
+    }
+  },
+  "retry": "重试",
+  "settings": "设置",
+  "theme": "主题",
+  "language": "语言",
+  "darkMode": "深色模式",
+  "lightMode": "浅色模式"
+}
