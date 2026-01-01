@@ -12,10 +12,13 @@ sealed class Failure with _$Failure {
   const factory Failure.cache({String? message}) = CacheFailure;
   const factory Failure.notFound({required String resource}) = NotFoundFailure;
   const factory Failure.validation(ValidationFailure details) = _ValidationFailure;
-  const factory Failure.device({required String reason}) = DeviceFailure;
+  const factory Failure.device({required DeviceFailureReason reason}) = DeviceFailure;
   const factory Failure.unauthorized({String? message}) = UnauthorizedFailure;
   const factory Failure.unexpected({Object? error, StackTrace? stackTrace}) = UnexpectedFailure;
 }
+
+/// Reasons for device-related failures.
+enum DeviceFailureReason { unavailable, noHardware, other }
 
 /// Validation-specific failures for form/input handling.
 @freezed

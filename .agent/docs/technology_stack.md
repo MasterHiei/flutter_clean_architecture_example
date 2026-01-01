@@ -2,6 +2,20 @@
 
 > Reference document for Flutter Clean Architecture. See also: [Core Prompt](../rules.md)
 
+## TL;DR - Key Technology Choices
+
+| Category | Primary Choice | Alternative |
+|----------|---------------|-------------|
+| **State Management** | Riverpod (`@riverpod`) | BLoC |
+| **Immutability** | Freezed | - |
+| **Error Handling** | fpdart (`Either`) | - |
+| **Networking** | Dio + Retrofit | http |
+| **Local Database** | Drift | Isar, ObjectBox |
+| **Routing** | auto_route | go_router |
+| **Secure Storage** | flutter_secure_storage | - |
+
+> **Quick Decision**: For new features, use the Primary Choice unless you have a specific reason to choose an Alternative.
+
 ## Official API Documentation
 
 | Package | Documentation |

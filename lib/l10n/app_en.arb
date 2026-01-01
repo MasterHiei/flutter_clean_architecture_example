@@ -18,5 +18,24 @@
   "theme": "Theme",
   "language": "Language",
   "darkMode": "Dark Mode",
-  "lightMode": "Light Mode"
+  "lightMode": "Light Mode",
+  "errorEmailRequired": "Email is required",
+  "errorEmailInvalid": "Invalid email format",
+  "errorEmailTooShort": "Email too short",
+  "errorEmailTooLong": "Email too long",
+  "errorValueMismatch": "Values do not match",
+  "errorPasswordRequired": "Password is required",
+  "errorServiceUnavailable": "Service unavailable",
+  "errorInvalidCredentials": "Invalid email or password",
+  "errorBiometricsUnavailable": "Biometrics not available",
+  "errorBiometricsHardware": "No biometric hardware found",
+  "useBiometrics": "Use Biometrics",
+  "homeTitle": "Home",
+  "logout": "Logout",
+  "welcomeMessage": "Welcome, {email}",
+  "@welcomeMessage": {
+    "placeholders": {
+      "email": {"type": "String"}
+    }
+  }
 }

@@ -2,42 +2,35 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'l10n/app_localizations.dart';
+import 'router/app_router.dart';
+
 void main() {
   runApp(ProviderScope(observers: [if (kDebugMode) _DebugProviderObserver()], child: const App()));
 }
 
-/// Root application widget.
-class App extends StatelessWidget {
+/// Root application widget using [AppRouter].
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Clean Architecture',
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppRouter appRouter = ref.watch(appRouterProvider);
+
+    return MaterialApp.router(
+      onGenerateTitle: (context) => AppLocalizations.of(context)?.appTitle ?? '',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      routerConfig: appRouter.config(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
 
-/// Home page placeholder - replace with actual feature page.
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Clean Architecture'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: const Center(child: Text('Clean Architecture Template')),
-    );
-  }
-}
+final Provider<AppRouter> appRouterProvider = Provider((ref) => AppRouter());
 
 /// Debug observer for tracking provider state changes.
 ///
@@ -45,8 +38,15 @@ class HomePage extends ConsumerWidget {
 final class _DebugProviderObserver extends ProviderObserver {
   @override
   void didUpdateProvider(ProviderObserverContext context, Object? previousValue, Object? newValue) {
-    debugPrint(
-      '[${context.provider.name ?? context.provider.runtimeType}] $previousValue → $newValue',
-    );
+    if (newValue is AsyncError) {
+      debugPrint(
+        '[${context.provider.name ?? context.provider.runtimeType}] ❌ Error: ${newValue.error}',
+      );
+      debugPrint('Stack trace:\n${newValue.stackTrace}');
+    } else {
+      debugPrint(
+        '[${context.provider.name ?? context.provider.runtimeType}] $previousValue → $newValue',
+      );
+    }
   }
 }

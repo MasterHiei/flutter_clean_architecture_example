@@ -26,6 +26,8 @@
 
 **Principle**: Interfaces and abstractions should be **introduced on demand**, not mechanically applied.
 
+> See [common_scenarios.md](common_scenarios.md) Section 2 for detailed decision flowcharts.
+
 ---
 
 ## 2. Code Generation Tools

@@ -145,3 +145,29 @@ onPressed: () async {
   Navigator.of(context).pop();
 }
 ~~~
+
+---
+
+## 7. Common Test Commands
+
+| Purpose | Command |
+|---------|---------|
+| Run all tests | `flutter test` |
+| Run with coverage | `flutter test --coverage` |
+| Run specific file | `flutter test test/path/to/test.dart` |
+| Run specific test | `flutter test --name "test description"` |
+| Parallel execution | `flutter test --concurrency=4` |
+| Watch mode (with test watcher) | `flutter pub global run test_watcher` |
+
+### Coverage Report
+
+~~~bash
+# Generate coverage
+flutter test --coverage
+
+# Generate HTML report (requires lcov)
+genhtml coverage/lcov.info -o coverage/html
+
+# Open report
+open coverage/html/index.html
+~~~

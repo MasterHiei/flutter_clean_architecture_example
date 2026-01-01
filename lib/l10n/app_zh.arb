@@ -18,5 +18,24 @@
   "theme": "主题",
   "language": "语言",
   "darkMode": "深色模式",
-  "lightMode": "浅色模式"
+  "lightMode": "浅色模式",
+  "errorEmailRequired": "请输入邮箱",
+  "errorEmailInvalid": "邮箱格式不正确",
+  "errorEmailTooShort": "邮箱长度过短",
+  "errorEmailTooLong": "邮箱长度过长",
+  "errorValueMismatch": "输入不一致",
+  "errorPasswordRequired": "请输入密码",
+  "errorServiceUnavailable": "服务暂停",
+  "errorInvalidCredentials": "邮箱或密码错误",
+  "errorBiometricsUnavailable": "生物识别不可用",
+  "errorBiometricsHardware": "未检测到生物识别硬件",
+  "useBiometrics": "使用生物识别",
+  "homeTitle": "主页",
+  "logout": "登出",
+  "welcomeMessage": "欢迎，{email}",
+  "@welcomeMessage": {
+    "placeholders": {
+      "email": {"type": "String"}
+    }
+  }
 }

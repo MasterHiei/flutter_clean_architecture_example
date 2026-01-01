@@ -23,11 +23,11 @@ final class DevEnv implements Env, EnvFields {
   DevEnv();
 
   @override
-  @EnviedField(varName: 'DATABASE_NAME')
+  @EnviedField(varName: 'DATABASE_NAME', obfuscate: true)
   final String databaseName = _DevEnv.databaseName;
 
   @override
-  @EnviedField(varName: 'API_BASE_URL')
+  @EnviedField(varName: 'API_BASE_URL', obfuscate: true)
   final String apiBaseUrl = _DevEnv.apiBaseUrl;
 }
 
@@ -36,10 +36,10 @@ final class ProdEnv implements Env, EnvFields {
   ProdEnv();
 
   @override
-  @EnviedField(varName: 'DATABASE_NAME')
+  @EnviedField(varName: 'DATABASE_NAME', obfuscate: true)
   final String databaseName = _ProdEnv.databaseName;
 
   @override
-  @EnviedField(varName: 'API_BASE_URL')
+  @EnviedField(varName: 'API_BASE_URL', obfuscate: true)
   final String apiBaseUrl = _ProdEnv.apiBaseUrl;
 }

@@ -56,19 +56,11 @@ This project follows these foundational principles:
 
 ---
 
-## Technology Stack Summary
+## Technology Stack
 
-| Layer | Primary Technologies |
-|-------|---------------------|
-| **State Management** | Riverpod (Notifier / AsyncNotifier) |
-| **Immutability** | Freezed |
-| **Error Handling** | fpdart (Either / Option / TaskEither) |
-| **Networking** | Dio + Retrofit |
-| **Local Database** | Drift |
-| **Routing** | auto_route / go_router |
-| **Code Generation** | build_runner |
+> For detailed technology choices, comparisons, and code examples, see [technology_stack.md](technology_stack.md).
 
-> See [technology_stack.md](technology_stack.md) for detailed comparison and usage examples.
+**Core Stack**: Riverpod + Freezed + fpdart + Dio/Retrofit + Drift
 
 ---
 

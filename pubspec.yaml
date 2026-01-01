@@ -14,6 +14,9 @@ dependencies:
   drift_flutter: ^0.2.8
   email_validator: ^3.0.0
   envied: ^1.3.2
+  connectivity_plus: ^7.0.0
+  device_info_plus: ^12.3.0
+  local_auth: ^3.0.0
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.1.0
@@ -25,6 +28,9 @@ dependencies:
   retrofit: ^4.9.2
   riverpod_annotation: ^4.0.0
   uuid: ^4.5.2
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
 
 dev_dependencies:
   auto_route_generator: ^10.4.0
@@ -34,12 +40,17 @@ dev_dependencies:
   envied_generator: ^1.3.2
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   freezed: ^3.2.3
   json_serializable: ^6.11.2
   lint: ^2.8.0
   retrofit_generator: ^10.2.1
   riverpod_generator: ^4.0.0+1
   riverpod_lint: ^3.1.0
+  mocktail: ^1.0.4
+  faker: ^2.2.0
 
 flutter:
   uses-material-design: true
+  generate: true

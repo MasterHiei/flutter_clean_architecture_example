@@ -137,7 +137,7 @@ return unexpected(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? message)?  network,TResult Function( int? code,  String? message)?  server,TResult Function( String? message)?  cache,TResult Function( String resource)?  notFound,TResult Function( ValidationFailure details)?  validation,TResult Function( String reason)?  device,TResult Function( String? message)?  unauthorized,TResult Function( Object? error,  StackTrace? stackTrace)?  unexpected,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? message)?  network,TResult Function( int? code,  String? message)?  server,TResult Function( String? message)?  cache,TResult Function( String resource)?  notFound,TResult Function( ValidationFailure details)?  validation,TResult Function( DeviceFailureReason reason)?  device,TResult Function( String? message)?  unauthorized,TResult Function( Object? error,  StackTrace? stackTrace)?  unexpected,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case NetworkFailure() when network != null:
 return network(_that.message);case ServerFailure() when server != null:
@@ -165,7 +165,7 @@ return unexpected(_that.error,_that.stackTrace);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? message)  network,required TResult Function( int? code,  String? message)  server,required TResult Function( String? message)  cache,required TResult Function( String resource)  notFound,required TResult Function( ValidationFailure details)  validation,required TResult Function( String reason)  device,required TResult Function( String? message)  unauthorized,required TResult Function( Object? error,  StackTrace? stackTrace)  unexpected,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? message)  network,required TResult Function( int? code,  String? message)  server,required TResult Function( String? message)  cache,required TResult Function( String resource)  notFound,required TResult Function( ValidationFailure details)  validation,required TResult Function( DeviceFailureReason reason)  device,required TResult Function( String? message)  unauthorized,required TResult Function( Object? error,  StackTrace? stackTrace)  unexpected,}) {final _that = this;
 switch (_that) {
 case NetworkFailure():
 return network(_that.message);case ServerFailure():
@@ -189,7 +189,7 @@ return unexpected(_that.error,_that.stackTrace);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? message)?  network,TResult? Function( int? code,  String? message)?  server,TResult? Function( String? message)?  cache,TResult? Function( String resource)?  notFound,TResult? Function( ValidationFailure details)?  validation,TResult? Function( String reason)?  device,TResult? Function( String? message)?  unauthorized,TResult? Function( Object? error,  StackTrace? stackTrace)?  unexpected,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? message)?  network,TResult? Function( int? code,  String? message)?  server,TResult? Function( String? message)?  cache,TResult? Function( String resource)?  notFound,TResult? Function( ValidationFailure details)?  validation,TResult? Function( DeviceFailureReason reason)?  device,TResult? Function( String? message)?  unauthorized,TResult? Function( Object? error,  StackTrace? stackTrace)?  unexpected,}) {final _that = this;
 switch (_that) {
 case NetworkFailure() when network != null:
 return network(_that.message);case ServerFailure() when server != null:
@@ -555,7 +555,7 @@ class DeviceFailure implements Failure {
   const DeviceFailure({required this.reason});
   
 
- final  String reason;
+ final  DeviceFailureReason reason;
 
 /// Create a copy of Failure
 /// with the given fields replaced by the non-null parameter values.
@@ -587,7 +587,7 @@ abstract mixin class $DeviceFailureCopyWith<$Res> implements $FailureCopyWith<$R
   factory $DeviceFailureCopyWith(DeviceFailure value, $Res Function(DeviceFailure) _then) = _$DeviceFailureCopyWithImpl;
 @useResult
 $Res call({
- String reason
+ DeviceFailureReason reason
 });
 
 
@@ -607,7 +607,7 @@ class _$DeviceFailureCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? reason = null,}) {
   return _then(DeviceFailure(
 reason: null == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
-as String,
+as DeviceFailureReason,
   ));
 }
 
