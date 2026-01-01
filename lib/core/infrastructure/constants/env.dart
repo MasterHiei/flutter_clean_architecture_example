@@ -9,13 +9,23 @@ abstract interface class EnvFields {
 }
 
 abstract interface class Env implements EnvFields {
-  factory Env._() => switch (const String.fromEnvironment('FLUTTER_APP_FLAVOR')) {
-    'dev' => DevEnv(),
-    'prod' => ProdEnv(),
-    _ => throw UnsupportedError('Unsupported FLUTTER_APP_FLAVOR'),
-  };
+  static late final Env _instance;
+  static bool _isInitialized = false;
 
-  static final instance = Env._();
+  static Env get instance => _instance;
+
+  static void init(String flavor) {
+    if (_isInitialized) {
+      return;
+    }
+
+    _instance = switch (flavor) {
+      'dev' => DevEnv(),
+      'prod' => ProdEnv(),
+      _ => throw UnsupportedError('Unsupported flavor: $flavor'),
+    };
+    _isInitialized = true;
+  }
 }
 
 @Envied(path: '.env.dev')

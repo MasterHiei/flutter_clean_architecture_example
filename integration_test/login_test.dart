@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture_example/main.dart' as app;
+import 'package:flutter_clean_architecture_example/main_common.dart' as app;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -7,7 +7,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('login success test', (WidgetTester tester) async {
-    app.main();
+    app.mainCommon();
     await tester.pumpAndSettle();
 
     final Finder emailFinder = find.byKey(const Key('login_email'));

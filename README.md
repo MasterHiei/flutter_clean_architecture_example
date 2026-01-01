@@ -14,7 +14,7 @@ flutter pub get
 dart run build_runner build --delete-conflicting-outputs
 
 # 3. Run (Dev environment)
-flutter run --flavor dev
+flutter run --flavor dev -t lib/main_dev.dart
 ~~~
 
 ## 🛠 Technology Stack

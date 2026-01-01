@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'l10n/app_localizations.dart';
 import 'router/app_router.dart';
 
-void main() {
+void mainCommon() {
   runApp(ProviderScope(observers: [if (kDebugMode) _DebugProviderObserver()], child: const App()));
 }
 
