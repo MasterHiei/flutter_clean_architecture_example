@@ -1,5 +1,5 @@
 name: flutter_clean_architecture_example
-description: "A new Flutter project."
+description: "A strict Clean Architecture template for Flutter using Riverpod, Freezed, and fpdart."
 
 version: 1.0.0+1
 

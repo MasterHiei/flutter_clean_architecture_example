@@ -1,47 +1,57 @@
 # Flutter Clean Architecture Example
 
-A comprehensive Flutter template project implementing Clean Architecture with Domain-Driven Design patterns.
+A production-ready Flutter template implementing strict **Clean Architecture** with **Domain-Driven Design (DDD)**.
 
-## Tech Stack
+> Designed for scalability, testability, and maintainability using the `Riverpod + Freezed + fpdart` stack.
 
-| Layer | Technology |
-|-------|------------|
-| State Management | Riverpod |
-| Immutability | Freezed |
-| Error Handling | fpdart (Either) |
-| Local Database | Drift |
-| Networking | Dio + Retrofit |
-| Routing | auto_route |
-
-## Project Structure
-
-~~~
-lib/
-├── core/                    # Cross-feature shared code
-│   ├── domain/             # Failures, Value Objects
-│   └── infrastructure/     # Database, Network, Constants
-├── features/               # Feature modules
-├── shared/                 # Shared UI components
-├── router/                 # Navigation
-└── l10n/                   # Localization
-~~~
-
-## Getting Started
+## 🚀 Quick Start
 
 ~~~bash
-# Install dependencies
+# 1. Install dependencies
 flutter pub get
 
-# Generate code
+# 2. Generate code
 dart run build_runner build --delete-conflicting-outputs
 
-# Run dev flavor
-flutter run --flavor dev --dart-define=FLUTTER_APP_FLAVOR=dev
-
-# Run prod flavor
-flutter run --flavor prod --dart-define=FLUTTER_APP_FLAVOR=prod
+# 3. Run (Dev environment)
+flutter run --flavor dev
 ~~~
 
-## Documentation
+## 🛠 Technology Stack
 
-See `.agent/` directory for architecture documentation.
+| Core | Library | Purpose |
+|------|---------|---------|
+| **State** | [Riverpod](https://pub.dev/packages/flutter_riverpod) | Reactive state & DI (No `setState`) |
+| **Data** | [Freezed](https://pub.dev/packages/freezed) | Immutable Data Classes & Unions |
+| **Logic** | [fpdart](https://pub.dev/packages/fpdart) | Functional Error Handling (`Either<L, R>`) |
+| **Network**| [Dio](https://pub.dev/packages/dio) + [Retrofit](https://pub.dev/packages/retrofit) | Type-safe REST Client |
+| **Local** | [Drift](https://pub.dev/packages/drift) | SQLite Database |
+
+## 📐 Architecture & Structure
+
+This project follows a strict 4-layer architecture enforcing the **Dependency Rule** (Inner layers allow no external dependencies).
+
+~~~text
+lib/
+├── core/                   # Shared kernel (Failures, ValueObjects, Services)
+├── features/               # Feature modules (DDD: Presentation, Application, Domain, Infra)
+│   ├── auth/               # Example: Authentication feature
+│   └── ...
+├── shared/                 # Shared UI Design System
+└── router/                 # AutoRoute configuration
+~~~
+
+## 📚 Documentation
+
+Detailed documentation is maintained in `.agent/`:
+- [**Architecture Principles**](.agent/docs/architecture_principles.md)
+- [**Agent Rules & Git Flow**](.agent/rules.md)
+- [**Tech Stack details**](.agent/docs/technology_stack.md)
+
+## 🧪 Testing
+
+We use **Requirements-Driven Testing** (mocking via `mocktail`).
+
+~~~bash
+flutter test
+~~~
