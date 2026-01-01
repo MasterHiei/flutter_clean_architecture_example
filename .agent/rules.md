@@ -177,9 +177,127 @@ Stop and report if:
 
 ---
 
+## Performance Constraints (CRITICAL)
+
+> [!CAUTION]
+> Violating these rules will result in rejected code.
+
+### State Management
+
+| Rule | Description |
+|------|-------------|
+| **NO setState** | `setState()` is PROHIBITED in all widgets |
+| **Riverpod Only** | All state must use Riverpod providers |
+| **Code Generation** | Use `@riverpod` annotation, never manual providers |
+| **Minimal Scope** | Provider scope must be as narrow as possible |
+| **UI State Separation** | Ephemeral UI state (e.g., visibility toggle) goes in `presentation/notifiers/` |
+
+### Widget Optimization
+
+| Rule | Description |
+|------|-------------|
+| **const Constructors** | Use `const` wherever possible |
+| **Extract Widgets** | Split large widgets to minimize rebuild scope |
+| **Reduce Nesting** | Avoid deep widget nesting; extract to private methods or widgets |
+| **ConsumerWidget First** | Prefer `ConsumerWidget` over `ConsumerStatefulWidget` |
+| **Keys** | Add `Key` only for lists, form fields, or testing |
+| **select()** | Use `ref.watch(provider.select(...))` for granular subscriptions |
+
+---
+
+## Post-Action Verification (MANDATORY)
+
+> [!WARNING]
+> Every action MUST be followed by verification. Do NOT proceed if verification fails.
+
+### Verification Protocol
+
+~~~
+After EVERY implementation action:
+│
+├── 1. Run `dart analyze` → Must show zero issues
+│
+├── 2. Check UI behavior (if applicable) → Must match requirements
+│
+├── 3. Verify test results (if tests exist) → Must pass
+│
+└── 4. Confirm changes match requirements → Re-read task before proceeding
+~~~
+
+### Verification Commands
+
+| Action Type | Verification Command |
+|-------------|---------------------|
+| Code changes | `dart analyze` |
+| Feature implementation | `flutter test` (if tests exist) |
+| Build configuration | `flutter build` (dry run) |
+
+---
+
+## Test Case Design Principles
+
+### Requirements-First Approach
+
+- Design tests from **user requirements**, NOT from existing code
+- Ask: "What should this feature do?" not "What does this code do?"
+- Tests must be written **before or independently** of implementation
+
+### Naming Convention
+
+~~~dart
+/// Format: should_[expected behavior]_when_[condition]
+test('should return token when credentials are valid', () { ... });
+test('should show error message when password is empty', () { ... });
+~~~
+
+### Description Guidelines
+
+| Principle | Example |
+|-----------|---------|
+| **Semantic** | "should validate email format" ✅ not "test email" ❌ |
+| **Precise** | "when password is empty" ✅ not "when bad input" ❌ |
+| **Action-Oriented** | Use verbs: return, show, navigate, throw |
+| **Logical Flow** | Condition → Action → Expected Result |
+
+---
+
 > [!IMPORTANT]
 > **Core AI Guidelines**:
 > 1. **Principles First**: Never violate architecture principles.
 > 2. **Verify First**: Verify all uncertain information.
 > 3. **Ask First**: Ask user about business logic/scope decisions.
 > 4. **Minimal Change**: Execute only what is requested.
+> 5. **Performance First**: No setState, minimize Riverpod scope.
+
+---
+
+## Git Execution Flow
+
+> [!IMPORTANT]
+> The Agent must follow these Git standard practices to ensure codebase history quality.
+
+### 1. Atomic Commits
+- **Clear Boundaries**: Each commit must represent a single, complete logical change.
+- **No Mixing**: Do not mix refactoring with feature implementation in the same commit.
+- **Verification**: Ensure `dart analyze` passes before committing (no logic errors).
+
+### 2. Commit Messages
+- **Format**: `type(scope): description` (Conventional Commits)
+  - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+- **Content**:
+  - **Focus on Developer**: detailedly explain *what* changed and *why*, not just *how*.
+  - **Concise**: Keep the first line under 50 chars, detailed description wrapped at 72 chars.
+  - **No Ambiguity**: Avoid vague messages like "fixed bug" or "update code".
+
+### 3. Gitflow Branching Standards
+- **Feature Branches**: `feat/feature-name` (e.g., `feat/login-screen`)
+- **Bug Fixes**: `fix/bug-issue` (e.g., `fix/token-refresh-loop`)
+- **Documentation**: `docs/topic` (e.g., `docs/api-guide`)
+- **Refactoring**: `refactor/scope` (e.g., `refactor/auth-provider`)
+
+### 4. Workflow Rules
+1. **Pull Latest**: Always pull `develop`/`main` before starting.
+2. **Create Branch**: Create a focused branch for the task: `git checkout -b [type]/[name]`.
+3. **Work & Commit**: Make atomic commits as you progress.
+4. **Push & PR**: Push to origin and create a Pull Request.
+5. **Clean Up**: Delete local branch after merge.
