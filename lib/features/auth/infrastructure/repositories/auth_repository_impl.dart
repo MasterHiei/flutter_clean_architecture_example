@@ -5,6 +5,7 @@ import '../../../../core/domain/entities/auth_tokens.dart';
 import '../../../../core/domain/failures/failure.dart';
 import '../../../../core/domain/services/biometric_service.dart';
 import '../../../../core/infrastructure/device/biometric_service_impl.dart';
+import '../../../../core/infrastructure/network/dio_provider.dart';
 import '../../../../core/infrastructure/network/token_manager.dart';
 import '../../../../core/infrastructure/storage/secure_storage.dart';
 import '../../domain/entities/user.dart';
@@ -18,7 +19,7 @@ part 'auth_repository_impl.g.dart';
 
 const _emailKey = 'auth_email';
 
-final class AuthRepositoryImpl implements AuthRepository {
+final class AuthRepositoryImpl implements AuthRepository, AuthRepositoryRef {
   AuthRepositoryImpl({
     required MockAuthDataSource mockDataSource,
     required SecureStorage secureStorage,
@@ -147,7 +148,9 @@ final class AuthRepositoryImpl implements AuthRepository {
         return left(const Failure.unauthorized(message: 'No tokens to refresh'));
       }
 
-      final RefreshTokenResponseDto response = await _mockDataSource.refreshToken(currentTokens.refreshToken);
+      final RefreshTokenResponseDto response = await _mockDataSource.refreshToken(
+        currentTokens.refreshToken,
+      );
 
       final newTokens = AuthTokens.fromOAuthResponse(
         accessToken: response.accessToken,
@@ -159,6 +162,8 @@ final class AuthRepositoryImpl implements AuthRepository {
       await _tokenManager.setTokens(newTokens);
       return right(newTokens);
     } on MockAuthException catch (e) {
+      // If refresh failed (e.g. invalid grant), clear tokens so guards know we are logged out
+      await _tokenManager.clearTokens();
       return left(Failure.unauthorized(message: e.message));
     } catch (e, st) {
       return left(Failure.unexpected(error: e, stackTrace: st));

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/infrastructure/auth/auth_state_controller.dart';
 import 'l10n/app_localizations.dart';
 import 'router/app_router.dart';
 
@@ -10,11 +13,38 @@ void mainCommon() {
 }
 
 /// Root application widget using [AppRouter].
-class App extends ConsumerWidget {
+///
+/// Subscribes to [AuthStateController] stream to handle global auth events.
+/// On [AuthEvent.expired], forces navigation to Login and clears tokens.
+class App extends ConsumerStatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<App> createState() => _AppState();
+}
+
+class _AppState extends ConsumerState<App> {
+  late final StreamSubscription<AuthEvent> _authSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize subscription after widget is mounted (ref is now valid)
+    _authSubscription = ref.read(authStateControllerProvider).stream.listen((event) {
+      if (event == AuthEvent.expired) {
+        ref.read(appRouterProvider).replaceAll([const LoginRoute()]);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final AppRouter appRouter = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
@@ -30,7 +60,7 @@ class App extends ConsumerWidget {
   }
 }
 
-final Provider<AppRouter> appRouterProvider = Provider((ref) => AppRouter());
+final Provider<AppRouter> appRouterProvider = Provider((ref) => AppRouter(ref));
 
 /// Debug observer for tracking provider state changes.
 ///

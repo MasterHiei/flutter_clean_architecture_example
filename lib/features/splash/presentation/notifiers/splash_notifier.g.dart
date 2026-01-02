@@ -45,7 +45,7 @@ final class SplashNotifierProvider
   SplashNotifier create() => SplashNotifier();
 }
 
-String _$splashNotifierHash() => r'a29a3ef85d985f4c3f07cc2a800c79ec29bb0818';
+String _$splashNotifierHash() => r'c29f301cc865c3ce99414dfc99085173671c23ce';
 
 /// Notifier for splash screen authentication check.
 ///

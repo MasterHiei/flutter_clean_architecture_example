@@ -9,15 +9,30 @@ part of 'dio_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// Provides configured [Dio] instance for network requests.
+///
+/// The [AuthInterceptor] is configured with:
+/// - Token manager for header injection
+/// - Refresh function for 401 handling
+/// - Auth state controller for expired event broadcasting
 
 @ProviderFor(dio)
 final dioProvider = DioProvider._();
 
 /// Provides configured [Dio] instance for network requests.
+///
+/// The [AuthInterceptor] is configured with:
+/// - Token manager for header injection
+/// - Refresh function for 401 handling
+/// - Auth state controller for expired event broadcasting
 
 final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
     with $Provider<Dio> {
   /// Provides configured [Dio] instance for network requests.
+  ///
+  /// The [AuthInterceptor] is configured with:
+  /// - Token manager for header injection
+  /// - Refresh function for 401 handling
+  /// - Auth state controller for expired event broadcasting
   DioProvider._()
     : super(
         from: null,
@@ -51,4 +66,4 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$dioHash() => r'39530588dc158a0e0a860412c136b0e1e46aabb2';
+String _$dioHash() => r'8185532bf5f302dbe0205020da7987dba4d6445c';

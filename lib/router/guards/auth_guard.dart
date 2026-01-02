@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,7 +22,7 @@ Future<bool> isAuthenticated(Ref ref) async {
 /// Redirects to login page if user is not authenticated.
 class AuthGuard extends AutoRouteGuard {
   AuthGuard(this._ref);
-  final WidgetRef _ref;
+  final Ref _ref;
 
   @override
   Future<void> onNavigation(NavigationResolver resolver, StackRouter router) async {
@@ -46,7 +45,7 @@ class AuthGuard extends AutoRouteGuard {
 /// If user is already logged in, redirects to home page.
 class GuestGuard extends AutoRouteGuard {
   GuestGuard(this._ref);
-  final WidgetRef _ref;
+  final Ref _ref;
 
   @override
   Future<void> onNavigation(NavigationResolver resolver, StackRouter router) async {
