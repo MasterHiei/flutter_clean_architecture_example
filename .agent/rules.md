@@ -295,7 +295,7 @@ test('should show error message when password is empty', () { ... });
 - **Format**: `type(scope): description` (Conventional Commits)
   - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 - **Content**:
-  - **Focus on Developer**: detailedly explain *what* changed and *why*, not just *how*.
+  - **Technical Focus**: Describe *what* changed (e.g., "add token refresh interceptor"). Avoid marketing language like "production-grade", "robust", "cutting-edge".
   - **Concise**: Keep the first line under 50 chars, detailed description wrapped at 72 chars.
   - **No Ambiguity**: Avoid vague messages like "fixed bug" or "update code".
 
@@ -311,3 +311,8 @@ test('should show error message when password is empty', () { ... });
 3. **Work & Commit**: Make atomic commits as you progress.
 4. **Push & PR**: Push to origin and create a Pull Request.
 5. **Clean Up**: Delete local branch after merge.
+
+### 5. Agent Commit Policy
+- **Explicit Instruction Required**: Agent must NOT auto-commit without explicit user instruction (e.g., "commit", "push", "提交").
+- **Staging Only**: Agent may stage changes (`git add`) but must wait for user approval before committing.
+- **Exception**: If user explicitly grants blanket permission (e.g., "auto-commit after each task"), Agent may commit autonomously.
